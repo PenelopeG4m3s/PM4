@@ -13,9 +13,19 @@ public class GameManager : MonoBehaviour
     public GameObject enemyControllerVulturePrefab;
     public GameObject enemyPawnPrefab;
     [Header("Up-to-date Lists")]
-    public List<Pawn> tanks;
-    public List<Controller> players;
+    public List <Pawn> tanks;
+    public List <Controller> players;
     public List <ControllerAI> enemies;
+    public List <PlayerSpawn> playerSpawnPoints;
+    public List <EnemySpawn> enemySpawnPoints;
+    public List <ItemSpawn> itemSpawnPoints;
+    [Header("GameStates")]
+    public GameObject TitleScreenStateObject;
+    public GameObject MainMenuStateObject;
+    public GameObject OptionsScreenStateObject;
+    public GameObject CreditsScreenStateObject;
+    public GameObject GameplayStateObject;
+    public GameObject GameOverScreenStateObject;
 
     void Awake()
     {
@@ -35,54 +45,57 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Create our up to date list objects
-        StartGame();
-
+        ActivateTitleScreen();
     }
 
-    public void StartGame()
-    {
+
+    // Consider moving all of this to a separate script that the gameplay object will have?
+    // Then the gamemanager will reference it since the gameplay object will have better control over its own objects
+    // Which would then allow for the gameplay object to kill all of its children easier
+    #region
+    //public void StartGame()
+    //{
         // Do everything that we need to start the game
 
         // Spawn the player
-        SpawnPlayer();
+        //SpawnPlayer();
         // Spawn enemies
-        SpawnEnemies();
+        //SpawnEnemies();
 
-    }
+    //}
 
-    public void SpawnPlayer()
-    {
+    //public void SpawnPlayer()
+    //{
         // Spawn a tank pawn (and store it in tanks)
-        Pawn tempTankPawn = SpawnTank( playerPawnPrefab, Vector3.zero );
+        //Pawn tempTankPawn = SpawnTank( playerPawnPrefab, Vector3.zero );
 
         // Spawn a player controller (and store it in player)
-        Controller tempPlayerController = SpawnPlayerController(playerControllerPrefab);
+        //Controller tempPlayerController = SpawnPlayerController(playerControllerPrefab);
 
         // Have the player possess the pawn
-        tempPlayerController.Possess(tempTankPawn);
-    }
+        //tempPlayerController.Possess(tempTankPawn);
+    //}
 
-    public void SpawnEnemies()
-    {
+    //public void SpawnEnemies()
+    //{
         // Spawn a tank (and store it in tanks)
-        Pawn tempTankPawn1 = SpawnTank( enemyPawnPrefab, new Vector3( 5.0f, 0.0f, -5.0f ) );
-        Pawn tempTankPawn2 = SpawnTank( enemyPawnPrefab, new Vector3( 5.0f, 0.0f, 5.0f ) );
-        Pawn tempTankPawn3 = SpawnTank( enemyPawnPrefab, new Vector3( -5.0f, 0.0f, 5.0f ) );
-        Pawn tempTankPawn4 = SpawnTank( enemyPawnPrefab, new Vector3( -5.0f, 0.0f, -5.0f ) );
+        //Pawn tempTankPawn1 = SpawnTank( enemyPawnPrefab, new Vector3( 5.0f, 0.0f, -5.0f ) );
+        //Pawn tempTankPawn2 = SpawnTank( enemyPawnPrefab, new Vector3( 5.0f, 0.0f, 5.0f ) );
+        //Pawn tempTankPawn3 = SpawnTank( enemyPawnPrefab, new Vector3( -5.0f, 0.0f, 5.0f ) );
+        //Pawn tempTankPawn4 = SpawnTank( enemyPawnPrefab, new Vector3( -5.0f, 0.0f, -5.0f ) );
 
         // Spawn an enemy controller ( and store it in enemies)
-        ControllerAI_Soldier tempTankController1 = SpawnEnemySoldierController( enemyControllerSoldierPrefab );
-        ControllerAI_Patroller tempTankController2 = SpawnEnemyPatrollerController( enemyControllerPatrollerPrefab );
-        ControllerAI_Runner tempTankController3 = SpawnEnemyRunnerController( enemyControllerRunnerPrefab );
-        ControllerAI_Vulture tempTankController4 = SpawnEnemyVultureController( enemyControllerVulturePrefab );
+        //ControllerAI_Soldier tempTankController1 = SpawnEnemySoldierController( enemyControllerSoldierPrefab );
+        //ControllerAI_Patroller tempTankController2 = SpawnEnemyPatrollerController( enemyControllerPatrollerPrefab );
+        //ControllerAI_Runner tempTankController3 = SpawnEnemyRunnerController( enemyControllerRunnerPrefab );
+        //ControllerAI_Vulture tempTankController4 = SpawnEnemyVultureController( enemyControllerVulturePrefab );
 
         // Have the enemy possess the pawn
-        tempTankController1.Possess( tempTankPawn1 );
-        tempTankController2.Possess( tempTankPawn2 );
-        tempTankController3.Possess( tempTankPawn3 );
-        tempTankController4.Possess( tempTankPawn4 );
-    }
+        //tempTankController1.Possess( tempTankPawn1 );
+        //tempTankController2.Possess( tempTankPawn2 );
+        //tempTankController3.Possess( tempTankPawn3 );
+        //tempTankController4.Possess( tempTankPawn4 );
+    //}
 
     public Pawn SpawnTank( GameObject prefab, Vector3 position )
     {
@@ -90,14 +103,84 @@ public class GameManager : MonoBehaviour
         return tempTankObject.GetComponent<Pawn>();
     }
 
-    public Controller SpawnPlayerController ( GameObject prefab )
+    //public Controller SpawnPlayerController ( GameObject prefab )
+    //{
+        //GameObject tempPlayer = Instantiate<GameObject>( prefab, Vector3.zero, Quaternion.identity );
+        //return tempPlayer.GetComponent<Controller>();
+    //}
+
+    public void SpawnEnemy( int spawnAmount, string enemyType )
     {
-        GameObject tempPlayer = Instantiate<GameObject>( prefab, Vector3.zero, Quaternion.identity );
-        return tempPlayer.GetComponent<Controller>();
+        // Create every enemy we want to spawn
+        for ( int i = 0; i < spawnAmount; i++ )
+        {
+            // Grab the intended spawnpoint
+            // Choose a spawnpoint from the list
+            Transform enemySpawn = enemySpawnPoints[Random.Range(0,enemySpawnPoints.Count)].transform;
+
+            // Create the tank
+            Pawn tempTankPawn = SpawnTank( enemyPawnPrefab, Vector3.zero );
+
+            // Set the pawn to be the child of the gameplay state
+            tempTankPawn.gameObject.transform.parent = GameplayStateObject.transform;
+
+            // Check what type of controller we want
+            switch (enemyType)
+            {
+                // Soldier
+                case "Soldier":
+                    // Create the controller
+                    ControllerAI_Soldier tempSoldierController = SpawnEnemySoldierController( enemyControllerSoldierPrefab );
+
+                    // Tell the controller to possess the tank
+                    tempSoldierController.Possess( tempTankPawn );
+
+                    // Set the controller to be the child of the gameplay state
+                    tempSoldierController.gameObject.transform.parent = GameplayStateObject.transform;
+                break;
+                // Patroller
+                case "Patroller":
+                    // Create the controller
+                    ControllerAI_Patroller tempPatrollerController = SpawnEnemyPatrollerController( enemyControllerPatrollerPrefab );
+
+                    // Tell the controller to possess the tank
+                    tempPatrollerController.Possess( tempTankPawn );
+
+                    // Set the controller to be the child of the gameplay state
+                    tempPatrollerController.gameObject.transform.parent = GameplayStateObject.transform;
+                break;
+                // Runner
+                case "Runner":
+                    // Create the controller
+                    ControllerAI_Runner tempRunnerController = SpawnEnemyRunnerController( enemyControllerRunnerPrefab );
+
+                    // Tell the controller to possess the tank
+                    tempRunnerController.Possess( tempTankPawn );
+
+                    // Set the controller to be the child of the gameplay state
+                    tempRunnerController.gameObject.transform.parent = GameplayStateObject.transform;
+                break;
+                // Vulture
+                case "Vulture":
+                    // Create the controller
+                    ControllerAI_Vulture tempVultureController = SpawnEnemyVultureController( enemyControllerVulturePrefab );
+
+                    // Tell the controller to possess the tank
+                    tempVultureController.Possess( tempTankPawn );
+
+                    // Set the controller to be the child of the gameplay state
+                    tempVultureController.gameObject.transform.parent = GameplayStateObject.transform;
+                break;
+            }
+
+            // Move to spawnpoint
+            tempTankPawn.transform.position = enemySpawn.position;
+        }
     }
 
     public ControllerAI_Soldier SpawnEnemySoldierController ( GameObject prefab )
     {
+        // TODO: Grab a random spawn for it to do
         GameObject tempPlayer = Instantiate<GameObject>( prefab, Vector3.zero, Quaternion.identity );
         return tempPlayer.GetComponent<ControllerAI_Soldier>();
     }
@@ -119,4 +202,106 @@ public class GameManager : MonoBehaviour
         GameObject tempPlayer = Instantiate<GameObject>( prefab, Vector3.zero, Quaternion.identity );
         return tempPlayer.GetComponent<ControllerAI_Vulture>();
     }
+
+    #endregion
+
+    // All of the game state menu stuff
+    #region
+
+    public void ActivateTitleScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        TitleScreenStateObject.SetActive(true);
+        // Do whatever needs to be done when the title screen starts.
+    }
+
+    public void ActivateMainMenuScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        MainMenuStateObject.SetActive(true);
+    }
+
+    public void ActivateOptionsScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        OptionsScreenStateObject.SetActive(true);
+    }
+
+    public void ActivateCreditsScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        CreditsScreenStateObject.SetActive(true);
+    }
+
+    public void ActivateGameplayScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        GameplayStateObject.SetActive(true);
+
+        // Clear the previous level (if applicable)
+        
+        // Start the game by calling the gameplay managers start game
+        GameplayManager gameplayManager = GameplayStateObject.GetComponent<GameplayManager>();
+        gameplayManager.StartGame();
+    }
+
+    public void ActivateGameOverScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        GameOverScreenStateObject.SetActive(true);
+    }
+
+    private void DeactivateAllStates()
+    {
+        // Deactivate all Game States
+        TitleScreenStateObject.SetActive(false);
+        MainMenuStateObject.SetActive(false);
+        OptionsScreenStateObject.SetActive(false);
+        CreditsScreenStateObject.SetActive(false);
+        GameplayStateObject.SetActive(false);
+        GameOverScreenStateObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            ActivateTitleScreen();
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            ActivateMainMenuScreen();
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            ActivateOptionsScreen();
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            ActivateCreditsScreen();
+        }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            ActivateGameplayScreen();
+        }
+        else if (Input.GetKeyDown(KeyCode.N))
+        {
+            ActivateGameOverScreen();
+        }
+    }
+
+    #endregion
+
 }
