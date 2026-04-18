@@ -4,6 +4,7 @@ public class PawnTank : Pawn
 {
     private ShooterTank shooter;
     public float shootForce;
+    public Camera cam;
 
     public override void Start()
     {

@@ -111,6 +111,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17bd464231b4e6f40bd9655c3aa9664f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3227997898326140295}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17bd464231b4e6f40bd9655c3aa9664f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2986751021452255808}
   m_SourcePrefab: {fileID: 100100000, guid: 17bd464231b4e6f40bd9655c3aa9664f, type: 3}
 --- !u!1 &8201644821684727040 stripped
 GameObject:
@@ -135,6 +138,7 @@ MonoBehaviour:
   moveSpeed: 20
   turnSpeed: 180
   shootForce: 500
+  cam: {fileID: 0}
 --- !u!54 &6080766376947542446
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -211,6 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShooterTank
   muzzleLocation: {fileID: 3639090952719411839}
   bulletPrefab: {fileID: 7612664756119824764, guid: 9c9840e96139cdf47be8b966bcaef697, type: 3}
+  shootSound: {fileID: 8300000, guid: 2231c55696aacfe418b4f307fa7f7d9a, type: 3}
+  audioManage: {fileID: 2986751021452255808}
   fireRate: 1
   nextShootTime: 1
 --- !u!114 &5888423485648550548
@@ -227,6 +233,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   currentHealth: 10
   maxHealth: 10
+  takeDamageSound: {fileID: 8300000, guid: 4fb5ca2e3bf630747a94da439fd20671, type: 3}
+  deathSound: {fileID: 8300000, guid: e1cbdc58c6880bc4c977fc2f130747a9, type: 3}
+  healSound: {fileID: 8300000, guid: 5dc7d0ed47a1f77438481fa307463ded, type: 3}
+  audioManage: {fileID: 2986751021452255808}
+  damageDealer: {fileID: 0}
 --- !u!114 &3227997898326140295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +250,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d805f3a98e0511841b777e47a6705d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpManager
+--- !u!114 &2986751021452255808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8201644821684727040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9dd56ac47336c74dbf812ec8b882a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManage
+  playAudioPrefab: {fileID: 1890516277684792089, guid: 9d750c0006306924c93a30d5d0e6fbfc, type: 3}
 --- !u!4 &8834312245044377530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 17bd464231b4e6f40bd9655c3aa9664f, type: 3}

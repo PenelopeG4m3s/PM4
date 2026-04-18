@@ -7,12 +7,6 @@ public class PlayerSpawn : MonoBehaviour
         GameManager.instance.playerSpawnPoints.Add(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnDestroy()
     {
         GameManager.instance.playerSpawnPoints.Remove(this);

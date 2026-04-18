@@ -2,7 +2,15 @@ using UnityEngine;
 
 public class PickUp_MoveSpeedConsumable : PickUp
 {
+    private AudioManage audioManage;
     public PowerUp_MoveSpeedConsumable powerup;
+    public AudioClip pickUpSound;
+
+    public override void Start()
+    {
+        base.Start();
+        audioManage = GetComponent<AudioManage>();
+    }
 
     public override void OnTriggerEnter( Collider other )
     {
@@ -19,5 +27,7 @@ public class PickUp_MoveSpeedConsumable : PickUp
         }
 
         base.OnTriggerEnter(other);
+
+        audioManage.PlayAudio( pickUpSound );
     }
 }

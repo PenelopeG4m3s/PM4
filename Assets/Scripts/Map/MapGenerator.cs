@@ -11,7 +11,7 @@ public class MapGenerator : MonoBehaviour
     public int seed = 27;
 
     [Header("TileData")]
-    public List<Tile> availableTiles;
+    public List <Tile> availableTiles;
     public float tileWidth;
     public float tileLength;
     public int mapCols;
@@ -81,6 +81,7 @@ public class MapGenerator : MonoBehaviour
                 
                 // Set parent to game object
                 tempTile.transform.parent = gameObject.transform;
+                gameObject.transform.parent.GetComponent<GameplayManager>().myChildren.Add(tempTile.gameObject);
 
                 tempTile.name = "Tile(" + currentCol + ", " + currentRow + ")";
 

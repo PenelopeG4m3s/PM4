@@ -14,18 +14,32 @@ public class GameManager : MonoBehaviour
     public GameObject enemyPawnPrefab;
     [Header("Up-to-date Lists")]
     public List <Pawn> tanks;
-    public List <Controller> players;
+    public List <ControllerPlayer> players;
     public List <ControllerAI> enemies;
     public List <PlayerSpawn> playerSpawnPoints;
     public List <EnemySpawn> enemySpawnPoints;
     public List <ItemSpawn> itemSpawnPoints;
+    //public List <float> scores;
+    public int[] scores;
     [Header("GameStates")]
     public GameObject TitleScreenStateObject;
     public GameObject MainMenuStateObject;
     public GameObject OptionsScreenStateObject;
     public GameObject CreditsScreenStateObject;
+    public GameObject StartGameScreenStateObject;
     public GameObject GameplayStateObject;
     public GameObject GameOverScreenStateObject;
+    public GameObject WinScreenStateObject;
+    [Header("Game Settings")]
+    // Add some sort of variable for whether you use random map or map of day
+    public bool mapOfTheDay = false;
+    public bool multiplayer = false;
+    public float masterVolume = 20.0f;
+    public float musicVolume = 20.0f;
+    public float sfxVolume = 20.0f;
+    public int numberOfPlayers;
+    [Header("AudioStuff")]
+    public AudioSource audioSource;
 
     void Awake()
     {
@@ -40,7 +54,9 @@ public class GameManager : MonoBehaviour
 
         // Create our up to date list objects (not just memory locations )
         tanks = new List<Pawn>();
-        players = new List<Controller>();
+        players = new List<ControllerPlayer>();
+        enemies = new List<ControllerAI>();
+        scores = new int[0];
     }
 
     void Start()
@@ -123,6 +139,7 @@ public class GameManager : MonoBehaviour
 
             // Set the pawn to be the child of the gameplay state
             tempTankPawn.gameObject.transform.parent = GameplayStateObject.transform;
+            GameplayStateObject.GetComponent<GameplayManager>().myChildren.Add(tempTankPawn.gameObject);
 
             // Check what type of controller we want
             switch (enemyType)
@@ -137,6 +154,7 @@ public class GameManager : MonoBehaviour
 
                     // Set the controller to be the child of the gameplay state
                     tempSoldierController.gameObject.transform.parent = GameplayStateObject.transform;
+                    GameplayStateObject.GetComponent<GameplayManager>().myChildren.Add(tempSoldierController.gameObject);
                 break;
                 // Patroller
                 case "Patroller":
@@ -148,6 +166,7 @@ public class GameManager : MonoBehaviour
 
                     // Set the controller to be the child of the gameplay state
                     tempPatrollerController.gameObject.transform.parent = GameplayStateObject.transform;
+                    GameplayStateObject.GetComponent<GameplayManager>().myChildren.Add(tempPatrollerController.gameObject);
                 break;
                 // Runner
                 case "Runner":
@@ -159,6 +178,7 @@ public class GameManager : MonoBehaviour
 
                     // Set the controller to be the child of the gameplay state
                     tempRunnerController.gameObject.transform.parent = GameplayStateObject.transform;
+                    GameplayStateObject.GetComponent<GameplayManager>().myChildren.Add(tempRunnerController.gameObject);
                 break;
                 // Vulture
                 case "Vulture":
@@ -170,6 +190,8 @@ public class GameManager : MonoBehaviour
 
                     // Set the controller to be the child of the gameplay state
                     tempVultureController.gameObject.transform.parent = GameplayStateObject.transform;
+                    GameplayStateObject.GetComponent<GameplayManager>().myChildren.Add(tempVultureController.gameObject);
+                    
                 break;
             }
 
@@ -215,6 +237,7 @@ public class GameManager : MonoBehaviour
         // Activate the title screen
         TitleScreenStateObject.SetActive(true);
         // Do whatever needs to be done when the title screen starts.
+        PlayMenuMusic();
     }
 
     public void ActivateMainMenuScreen()
@@ -241,18 +264,26 @@ public class GameManager : MonoBehaviour
         CreditsScreenStateObject.SetActive(true);
     }
 
-    public void ActivateGameplayScreen()
+    public void ActivateGameplayScreen( int playerCount, RandomType randomType )
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        StopMenuMusic();
+        Debug.Log("IS IT STOPPED: "+audioSource.isPlaying);
+        // Activate the title screen
+        GameplayStateObject.SetActive(true);
+        
+        // Start the game by calling the gameplay managers start game
+        GameplayManager gameplayManager = GameplayStateObject.GetComponent<GameplayManager>();
+        gameplayManager.StartGame( playerCount, randomType );
+    }
+
+    public void ActivateStartGameScreen()
     {
         // Deactivate all states
         DeactivateAllStates();
         // Activate the title screen
-        GameplayStateObject.SetActive(true);
-
-        // Clear the previous level (if applicable)
-        
-        // Start the game by calling the gameplay managers start game
-        GameplayManager gameplayManager = GameplayStateObject.GetComponent<GameplayManager>();
-        gameplayManager.StartGame();
+        StartGameScreenStateObject.SetActive(true);
     }
 
     public void ActivateGameOverScreen()
@@ -261,6 +292,16 @@ public class GameManager : MonoBehaviour
         DeactivateAllStates();
         // Activate the title screen
         GameOverScreenStateObject.SetActive(true);
+        PlayMenuMusic();
+    }
+
+    public void ActivateWinScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        WinScreenStateObject.SetActive(true);
+        PlayMenuMusic();
     }
 
     private void DeactivateAllStates()
@@ -270,38 +311,33 @@ public class GameManager : MonoBehaviour
         MainMenuStateObject.SetActive(false);
         OptionsScreenStateObject.SetActive(false);
         CreditsScreenStateObject.SetActive(false);
+        StartGameScreenStateObject.SetActive(false);
         GameplayStateObject.SetActive(false);
         GameOverScreenStateObject.SetActive(false);
+        WinScreenStateObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            ActivateTitleScreen();
-        }
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            ActivateMainMenuScreen();
-        }
-        else if (Input.GetKeyDown(KeyCode.C))
-        {
-            ActivateOptionsScreen();
-        }
-        else if (Input.GetKeyDown(KeyCode.V))
-        {
-            ActivateCreditsScreen();
-        }
-        else if (Input.GetKeyDown(KeyCode.B))
-        {
-            ActivateGameplayScreen();
-        }
-        else if (Input.GetKeyDown(KeyCode.N))
-        {
-            ActivateGameOverScreen();
-        }
+        //Debug.Log(audioSource.isPlaying());
     }
 
     #endregion
+
+    public void PlayMenuMusic()
+    {
+        audioSource.Play();
+    }
+
+    public void StopMenuMusic()
+    {
+        audioSource.Stop();
+    }
+
+    public void SetParent( GameObject childObject )
+    {
+        childObject.transform.parent = GameplayStateObject.transform;
+        GameplayStateObject.GetComponent<GameplayManager>().myChildren.Add( childObject );
+    }
 
 }

@@ -15,7 +15,23 @@ public class ControllerAI : Controller
 
     public override void Start()
     {
+        base.Start();
         GameManager.instance.enemies.Add(this);
+    }
+
+    public void OnDestroy()
+    {
+        // Remove this from the list of player
+        GameManager.instance.enemies.Remove(this);
+    }
+
+    public override void Update()
+    {
+        SetTarget();
+        if (target != null)
+        {
+            base.Update();
+        }
     }
 
     public override void MakeDecisions() {}
@@ -73,7 +89,10 @@ public class ControllerAI : Controller
 
     public virtual void DoChaseAndShoot()
     {
-        Seek(target.position);
+        if (target != null)
+        {
+            Seek(target.position);
+        }
         pawn.Shoot();
     }
 
@@ -107,7 +126,6 @@ public class ControllerAI : Controller
 
     }
 
-
     public bool CanHear( GameObject target )
     {
         // Check if our target has *NoiseMaker*
@@ -130,5 +148,41 @@ public class ControllerAI : Controller
         // Otherwise, return false
         return false;
 
+    }
+
+    public override void Respawn()
+    {
+        // Get a list of all the spawn points
+        Transform enemySpawn = GameManager.instance.enemySpawnPoints[Random.Range(0,GameManager.instance.enemySpawnPoints.Count)].transform;
+        
+        // create the pawn
+        Pawn tempTankPawn = GameManager.instance.SpawnTank( GameManager.instance.enemyPawnPrefab, Vector3.zero );
+        
+        // Possess the pawn
+        Possess( tempTankPawn );
+
+        // Set the pawn to the spawn point
+        tempTankPawn.transform.position = enemySpawn.position;
+        
+        // Set the parent to the gameplay object
+        tempTankPawn.transform.parent = transform.parent;
+    }
+
+    public void SetTarget()
+    {
+        float lastDistance = 10000.0f;
+        foreach ( ControllerPlayer player in GameManager.instance.players )
+        {
+            if (player.pawn != null && pawn != null)
+            {
+                Vector3 vectorToTarget = pawn.transform.position - player.pawn.transform.position;
+                float distanceToPlayer = vectorToTarget.magnitude;
+                if (lastDistance >= distanceToPlayer)
+                {
+                    target = player.pawn.transform;
+                }
+                lastDistance = distanceToPlayer;
+            }
+        }
     }
 }

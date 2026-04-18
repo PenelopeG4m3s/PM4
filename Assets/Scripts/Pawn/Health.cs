@@ -4,36 +4,52 @@ public class Health : MonoBehaviour
 {
     public float currentHealth;
     public float maxHealth;
+    public AudioClip takeDamageSound;
+    public AudioClip deathSound;
+    public AudioClip healSound;
+    public AudioManage audioManage;
+    //private AudioSource audioSource;
+    [HideInInspector] public Pawn damageDealer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //audioSource = GetComponent<AudioSource>();
+        audioManage = GetComponent<AudioManage>();
+
+        // Tanks start max health
         currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage ( float amount, Pawn pawn )
     {
-        
-    }
-
-    public void TakeDamage ( float amount )
-    {
-        Debug.Log("Damage Taken: "+amount);
-        // TODO: Take Damage
         currentHealth -= amount;
+
+        // Play sound
+        if ( currentHealth > 0 && amount > 0)
+        {
+            audioManage.PlayAudio(takeDamageSound);
+        }
 
         // Keep health between 0 and max
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         // Check for Death
         CheckDie();
+
+        damageDealer = pawn;
+
     }
 
     public void Heal ( float amount )
     {
-        // TODO: Heal
         currentHealth += amount;
+
+        // Play sound
+        if ( (currentHealth - amount) != Mathf.Clamp(currentHealth,0,maxHealth) )
+        {
+            audioManage.PlayAudio(healSound);
+        }
 
         // Keep health between 0 and max
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -56,8 +72,19 @@ public class Health : MonoBehaviour
 
     public void Die (  )
     {
-        Debug.Log( gameObject.name + " has moved on to a better place");
+        // lose a life
+        Controller myController = gameObject.GetComponent<Pawn>().controller;
+        myController.currentLives -= 1;
+        myController.currentRespawnTimer = myController.maxRespawnTimer;
         Destroy(gameObject);
+
+        audioManage.PlayAudio(deathSound);
+
+        // give the other person points
+        if (damageDealer != null)
+        {
+            damageDealer.controller.AddScore(100);
+        }
     }
 
     public void CheckDie (  )

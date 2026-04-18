@@ -25,7 +25,7 @@ public class DamageOtherOnOverlap : MonoBehaviour
         // If it has one:
         if (otherHealth != null)
         {
-            otherHealth.TakeDamage(damageDone);
+            otherHealth.TakeDamage( damageDone, _projectile.parentPawn );
         }
 
         // Destroy this projectile

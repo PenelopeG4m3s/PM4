@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6511362745329303515}
   - component: {fileID: 5066168184588911411}
   - component: {fileID: 8407869042811619185}
-  - component: {fileID: -1710264573439885523}
   - component: {fileID: 5811519022057421723}
+  - component: {fileID: -2735504147218711955}
   m_Layer: 0
   m_Name: Pickup_MoveSpeedConsumable
   m_TagString: Untagged
@@ -113,21 +113,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-1710264573439885523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3961247801403379014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 613e5e52348341046b306f68d386bb64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickUpHealth
-  powerup:
-    lifespan: 10
-    amountToHeal: 1
 --- !u!114 &5811519022057421723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,5 +126,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickUp_MoveSpeedConsumable
   powerup:
-    lifespan: 0
-    speedBoostAmount: 0
+    lifespan: 10
+    speedBoostAmount: 10
+  pickUpSound: {fileID: 8300000, guid: 003b87ae64374a74fa45ef2cbf4dfb05, type: 3}
+--- !u!114 &-2735504147218711955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3961247801403379014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9dd56ac47336c74dbf812ec8b882a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManage
+  playAudioPrefab: {fileID: 1890516277684792089, guid: 9d750c0006306924c93a30d5d0e6fbfc, type: 3}

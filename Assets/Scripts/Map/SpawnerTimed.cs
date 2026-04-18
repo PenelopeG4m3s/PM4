@@ -39,7 +39,7 @@ public class SpawnerTimed : MonoBehaviour
                 // Spawn Object
                 spawnedObject = Instantiate(objectToSpawn, point.position, transform.rotation) as GameObject;
                 // Set object parent to me
-                spawnedObject.transform.parent = gameObject.transform;
+                GameManager.instance.SetParent(spawnedObject);
                 // Reset time
                 countdownTimer = timeBetweenSpawns;
             }

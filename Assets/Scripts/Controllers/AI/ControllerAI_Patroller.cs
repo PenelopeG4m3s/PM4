@@ -10,6 +10,7 @@ public class ControllerAI_Patroller : ControllerAI
 
     public override void Start()
     {
+        base.Start();
         GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
         target = player[0].transform;
 

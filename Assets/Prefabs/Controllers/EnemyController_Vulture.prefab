@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControllerAI_Vulture
   pawn: {fileID: 0}
+  maxLives: 1
+  currentLives: 0
+  maxRespawnTimer: 0
+  currentRespawnTimer: 0
   currentState: 0
   target: {fileID: 0}
   fleeDistance: 20

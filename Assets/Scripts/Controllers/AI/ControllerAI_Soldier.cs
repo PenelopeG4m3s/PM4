@@ -4,6 +4,7 @@ public class ControllerAI_Soldier : ControllerAI
 {
     public override void Start()
     {
+        base.Start();
         GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
         target = player[0].transform;
     }
@@ -39,7 +40,6 @@ public class ControllerAI_Soldier : ControllerAI
                     if ( health.currentHealth < 5 )
                     {
                         ChangeFlee = true;
-                        Debug.Log("YOU SHOULD FLEE");
                     } else {
                         ChangeFlee = false;
                     }

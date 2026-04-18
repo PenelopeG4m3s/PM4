@@ -7,12 +7,6 @@ public class ItemSpawn : MonoBehaviour
         GameManager.instance.itemSpawnPoints.Add(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnDestroy()
     {
         GameManager.instance.itemSpawnPoints.Remove(this);

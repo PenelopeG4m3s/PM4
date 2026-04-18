@@ -7,12 +7,6 @@ public class EnemySpawn : MonoBehaviour
         GameManager.instance.enemySpawnPoints.Add(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnDestroy()
     {
         GameManager.instance.enemySpawnPoints.Remove(this);

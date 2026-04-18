@@ -4,6 +4,7 @@ public class ControllerAI_Runner : ControllerAI
 {
     public override void Start()
     {
+        base.Start();
         GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
         target = player[0].transform;
     }

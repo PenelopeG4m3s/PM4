@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class PowerUpManager : MonoBehaviour
 {
-    public List<PowerUp> powerups;
+    public List <PowerUp> powerups;
+    //public List <PowerUp> bee;
+    //public List <Pawn> tanks;
+    //public float bees;
     private Pawn pawn;
 
     public void Start()
@@ -20,12 +23,18 @@ public class PowerUpManager : MonoBehaviour
     {
         // Update the countdown (lifespan) for every powerup
         UpdatePowerUpLifespans();
+        //Debug.Log(powerups.Count);
 
         // TODO: Check for expired powerups and remove them
-        CheckForExpiredPowerUps();
+        //CheckForExpiredPowerUps();
 
 
         // TODO: TODO: Way Later - Not in this class - this is where you would check for and apply "over time" effects
+    }
+
+    private void LateUpdate ()
+    {
+        CheckForExpiredPowerUps();
     }
 
     public void UpdatePowerUpLifespans()
@@ -64,7 +73,7 @@ public class PowerUpManager : MonoBehaviour
         powerup.Apply(pawn);
 
         // Add it to our list
-        powerups.Add(powerup);
+        powerups.Add(powerup); 
     }
 
     public void Remove( PowerUp powerup )

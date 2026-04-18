@@ -9,4 +9,9 @@ public class Projectile : MonoBehaviour
     {
         Destroy(gameObject, lifespan);
     }
+
+    void OnDestroy()
+    {
+        transform.parent.GetComponent<GameplayManager>().myChildren.Remove(gameObject);
+    }
 }
