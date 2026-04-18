@@ -16,17 +16,17 @@ public class PlayerUI : MonoBehaviour
     {
         ResetEverything();
 
-        if ( player.currentLives != 0 || player.currentRespawnTimer == 0 )
+        if ( player.currentLives != 0 && player.currentRespawnTimer == 0 )
         {
             UpdateLives();
             UpdateScore();
             UpdateHealth();
         }
-        else if (player.currentRespawnTimer != 0)
+        if (player.currentRespawnTimer != 0)
         {
             UpdateRespawnTimer();
         }
-        else
+        if (player.currentLives == 0)
         {
             UpdateGameOver();
         }
