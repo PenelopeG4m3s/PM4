@@ -22,7 +22,7 @@ public class PlayerUI : MonoBehaviour
             UpdateScore();
             UpdateHealth();
         }
-        if (player.currentRespawnTimer != 0)
+        if (player.currentRespawnTimer != 0 && player.currentLives != 0)
         {
             UpdateRespawnTimer();
         }
@@ -58,7 +58,12 @@ public class PlayerUI : MonoBehaviour
 
     void UpdateRespawnTimer()
     {
-        respawn.text = "Respawn in: " + player.currentRespawnTimer;
+        //respawn.text = "Respawn in: " + player.currentRespawnTimer;
+        float timer = player.currentRespawnTimer;
+        string timerString = timer.ToString();
+        string[] splitArray =  timerString.Split(char.Parse("."));
+        string timerSplit = splitArray[0];
+        respawn.text = "Respawn in: " + timerSplit;
     }
 
     void UpdateGameOver()

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5066168184588911411}
   - component: {fileID: 8407869042811619185}
   - component: {fileID: 2264537281626889710}
+  - component: {fileID: 4096048797507277355}
   m_Layer: 0
   m_Name: Pickup_Score
   m_TagString: Untagged
@@ -127,3 +128,17 @@ MonoBehaviour:
   powerup:
     lifespan: 0
     amountToAdd: 100
+  pickUpSound: {fileID: 8300000, guid: 003b87ae64374a74fa45ef2cbf4dfb05, type: 3}
+--- !u!114 &4096048797507277355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3961247801403379014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9dd56ac47336c74dbf812ec8b882a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManage
+  playAudioPrefab: {fileID: 1890516277684792089, guid: 9d750c0006306924c93a30d5d0e6fbfc, type: 3}

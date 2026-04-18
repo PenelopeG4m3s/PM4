@@ -689,7 +689,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -3684,6 +3684,7 @@ MonoBehaviour:
   - {fileID: 3961247801403379014, guid: 6ba04e381fa01dd4f8efbe06e6e41e94, type: 3}
   - {fileID: 3961247801403379014, guid: a76023f599d01a647b656c3e75bf5854, type: 3}
   - {fileID: 3961247801403379014, guid: 39cb7c28cfc200249904cd0e2aa47c12, type: 3}
+  - {fileID: 3961247801403379014, guid: beb6693084204834884e841e924787a8, type: 3}
   myChildren: []
   audioSource: {fileID: 627697575}
 --- !u!81 &627697574
