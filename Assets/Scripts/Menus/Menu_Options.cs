@@ -25,23 +25,6 @@ public class Menu_Options : MonoBehaviour
         GameManager.instance.ActivateMainMenuScreen();
     }
 
-    public void SetPlayerButtonText()
-    {
-        numberOfPlayersButtonText.text = "" + GameManager.instance.numberOfPlayers;
-    }
-
-    public void OptionsMenu_MapOfTheDay()
-    {
-        // Set the value in the game manager
-        GameManager.instance.mapOfTheDay = !GameManager.instance.mapOfTheDay;
-    }
-
-    public void OptionMenu_Multiplayer()
-    {
-        // Set the value in the game manager
-        GameManager.instance.multiplayer = !GameManager.instance.multiplayer;
-    }
-
     public void OnMainVolumeSliderChange ()
     {
         // Start with the slider value 

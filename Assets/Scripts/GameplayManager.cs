@@ -20,13 +20,15 @@ public class GameplayManager : MonoBehaviour
     public AudioSource audioSource;
 
     // Call this function to begin gameplay
-    public void StartGame( int playerCount, RandomType randomType )
+    public void StartGame( int playerCount, RandomType randomType, int seed )
     {
         StartBackgroundMusic();
         // Check if the game has already been started so that we don't start the game again
         if ( !GameInProgress )
         {
             // Generate the map
+            mapGenerator.randomType = randomType;
+            mapGenerator.seed = seed;
             mapGenerator.InitializeRandom();
             mapGenerator.GenerateMap();
 

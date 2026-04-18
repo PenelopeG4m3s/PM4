@@ -32,12 +32,9 @@ public class GameManager : MonoBehaviour
     public GameObject WinScreenStateObject;
     [Header("Game Settings")]
     // Add some sort of variable for whether you use random map or map of day
-    public bool mapOfTheDay = false;
-    public bool multiplayer = false;
     public float masterVolume = 20.0f;
     public float musicVolume = 20.0f;
     public float sfxVolume = 20.0f;
-    public int numberOfPlayers;
     [Header("AudioStuff")]
     public AudioSource audioSource;
 
@@ -264,7 +261,7 @@ public class GameManager : MonoBehaviour
         CreditsScreenStateObject.SetActive(true);
     }
 
-    public void ActivateGameplayScreen( int playerCount, RandomType randomType )
+    public void ActivateGameplayScreen( int playerCount, RandomType randomType, int seed )
     {
         // Deactivate all states
         DeactivateAllStates();
@@ -275,7 +272,7 @@ public class GameManager : MonoBehaviour
         
         // Start the game by calling the gameplay managers start game
         GameplayManager gameplayManager = GameplayStateObject.GetComponent<GameplayManager>();
-        gameplayManager.StartGame( playerCount, randomType );
+        gameplayManager.StartGame( playerCount, randomType, seed );
     }
 
     public void ActivateStartGameScreen()
