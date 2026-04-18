@@ -64,7 +64,7 @@ public class Health : MonoBehaviour
         maxHealth += amount;
 
         // Keep health between 0 and max
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentHealth = maxHealth;
 
         // Check for Death
         CheckDie();

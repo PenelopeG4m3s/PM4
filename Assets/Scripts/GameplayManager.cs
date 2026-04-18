@@ -43,9 +43,9 @@ public class GameplayManager : MonoBehaviour
 
             // Spawn the enemies
             GameManager.instance.SpawnEnemy( (int)1, "Soldier" );
-            //GameManager.instance.SpawnEnemy( (int)1, "Patroller");
-            //GameManager.instance.SpawnEnemy( (int)1, "Runner" );
-            //GameManager.instance.SpawnEnemy( (int)1, "Vulture" ); 
+            GameManager.instance.SpawnEnemy( (int)1, "Patroller");
+            GameManager.instance.SpawnEnemy( (int)1, "Runner" );
+            GameManager.instance.SpawnEnemy( (int)1, "Vulture" ); 
 
             // Spawn the spawners
             SpawnItemSpawner( GameManager.instance.itemSpawnPoints.Count );

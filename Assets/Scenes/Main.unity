@@ -7230,11 +7230,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5625634109626413161, guid: 12854fb2c3cb08a4bb6f68d6b9a00c23, type: 3}
       propertyPath: mapCols
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5625634109626413161, guid: 12854fb2c3cb08a4bb6f68d6b9a00c23, type: 3}
       propertyPath: mapRows
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5625634109626413161, guid: 12854fb2c3cb08a4bb6f68d6b9a00c23, type: 3}
       propertyPath: randomType

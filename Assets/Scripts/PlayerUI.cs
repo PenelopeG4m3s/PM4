@@ -7,6 +7,7 @@ public class PlayerUI : MonoBehaviour
     public ControllerPlayer player;
     public TMP_Text lives;
     public TMP_Text score;
+    public TMP_Text health;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,6 +20,7 @@ public class PlayerUI : MonoBehaviour
     {
         UpdateLives();
         UpdateScore();
+        UpdateHealth();
     }
 
     void UpdateLives()
@@ -29,5 +31,10 @@ public class PlayerUI : MonoBehaviour
     void UpdateScore()
     {
         score.text = "Score: " + player.score;
+    }
+
+    void UpdateHealth()
+    {
+        health.text = "Health: " + player.pawn.health.currentHealth + "/" + player.pawn.health.maxHealth;
     }
 }
